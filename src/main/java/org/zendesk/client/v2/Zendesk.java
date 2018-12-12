@@ -34,6 +34,7 @@ import org.zendesk.client.v2.model.Group;
 import org.zendesk.client.v2.model.GroupMembership;
 import org.zendesk.client.v2.model.Identity;
 import org.zendesk.client.v2.model.JobStatus;
+import org.zendesk.client.v2.model.Locale;
 import org.zendesk.client.v2.model.Macro;
 import org.zendesk.client.v2.model.Metric;
 import org.zendesk.client.v2.model.Organization;
@@ -1859,6 +1860,13 @@ public class Zendesk implements Closeable {
         return complete(submit(req("GET",
             tmpl("/business_hours/schedules/{id}/holidays.json").set("id", scheduleId)),
             handleList(Holiday.class, "holidays")));
+    }
+
+    public Iterable<Locale> getLocales() {
+        return complete(
+            submit(req("GET", cnst("/locales.json")),
+            handleList(Locale.class, "locales"))
+        );
     }
 
     //////////////////////////////////////////////////////////////////////
