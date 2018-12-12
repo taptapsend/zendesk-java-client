@@ -838,6 +838,27 @@ public class Zendesk implements Closeable {
         return updateUser(user);
     }
 
+    /**
+     * Merge {@param sourceUserId} into {@param destUserId}. In other words, after the merge, only
+     * the {@param destUserId} will exist, but it will includes properties and tickets that used to
+     * live on the {@param sourceUserId} user.
+     */
+    public void mergeUsers(long sourceUserId, long destUserId) {
+        User destUser = new User();
+        destUser.setId(destUserId);
+        complete(
+            submit(
+                req(
+                    "PUT",
+                    tmpl("/users/{id}/merge.json").set("id", sourceUserId),
+                    JSON,
+                    json(Collections.singletonMap("user", destUser))
+                ),
+                handleStatus()
+            )
+        );
+    }
+
     public Iterable<User> lookupUserByEmail(String email) {
         return new PagedIterable<>(tmpl("/users/search.json{?query}").set("query", email),
                 handleList(User.class, "users"));
