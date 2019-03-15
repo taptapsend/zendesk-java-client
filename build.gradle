@@ -50,7 +50,7 @@ allprojects {
         repositories {
             maven {
                 name "s3"
-                url "s3://segovia-build-artifacts/common/maven"
+                url "s3://taptapsend-build-artifacts/common/maven"
                 authentication {
                     awsIm(AwsImAuthentication)
                 }
